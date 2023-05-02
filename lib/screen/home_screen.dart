@@ -13,10 +13,9 @@ class Home_Screen extends StatefulWidget {
 }
 
 class _Home_ScreenState extends State<Home_Screen> {
+  String _resultado = "";
 
-  String _resultado = "resultado";
-
-    _recuperarCep(String cep) async {
+  _recuperarCep(String cep) async {
     String url = "https://viacep.com.br/ws/${cep}/json/";
     http.Response response;
 
@@ -29,54 +28,66 @@ class _Home_ScreenState extends State<Home_Screen> {
     String ddd = retorno['ddd'];
 
     print(
-      "Resposta: logradouro: ${logradouro} complemento: ${complemento} bairro: ${bairro} localidade ${localidade} ddd ${ddd}"
-    );
+        "Resposta: logradouro: ${logradouro} complemento: ${complemento} bairro: ${bairro} localidade ${localidade} ddd ${ddd}");
 
     setState(() {
-      _resultado = "${logradouro}, ${complemento}, ${bairro}, ${localidade}, ${ddd} ";
+      _resultado =
+          "${logradouro}, ${complemento}, ${bairro}, ${localidade}, ${ddd} ";
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
-      TextEditingController cep = TextEditingController();
+    TextEditingController cep = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrange,
         title: Center(
-          child: Text('Consultar Cep',
+          child: Text(
+            'Consultar Cep',
           ),
         ),
       ),
-     body: Container(
-       width: MediaQuery.of(context).size.width,
-       height: MediaQuery.of(context).size.height,
-       child: Column(
-         children: [
-           SizedBox(
-             height: 10,
-           ),
-           Lottie.asset("assets/lotties/location.json", width: 130),
-           Center(
-             child: SizedBox(
-               width: 250,
-               child: TextField(
-                 controller: cep,
-                 decoration: InputDecoration(
-                   labelText: 'Digite seu cep',
-                   border: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(50),
-                   ),
-                 ),
-                 keyboardType: TextInputType.number,
-               ),
-             ),
-           ),
-           SizedBox(
-             height: 40,
-           ),
-           Text(_resultado),
-           ElevatedButton(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Lottie.asset("assets/lotties/location.json", width: 120),
+            Center(
+              child: SizedBox(
+                width: 250,
+                child: TextField(
+                  controller: cep,
+                  decoration: InputDecoration(
+                    labelText: 'Digite seu cep',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            Text(
+              _resultado,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepOrange,
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepOrange,
                 textStyle: GoogleFonts.montserrat(
@@ -84,12 +95,12 @@ class _Home_ScreenState extends State<Home_Screen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-               onPressed: () => _recuperarCep(cep.text),
-               child: Text('Consultar'),
-           ),
-         ],
-       ),
-     ),
+              onPressed: () => _recuperarCep(cep.text),
+              child: Text('Consultar'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
